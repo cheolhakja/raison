@@ -1,5 +1,7 @@
 package raison.web;
 
+import raison.User;
+
 public class UserDataCarrier {
 
     private String userId;
@@ -50,5 +52,9 @@ public class UserDataCarrier {
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 '}';
+    }
+
+    public User toUser() {
+        return new User(userId, password, name, email);
     }
 }
