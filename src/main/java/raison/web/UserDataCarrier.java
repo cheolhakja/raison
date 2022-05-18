@@ -1,6 +1,6 @@
 package raison.web;
 
-import raison.User;
+import raison.domain.User;
 
 public class UserDataCarrier {
 
