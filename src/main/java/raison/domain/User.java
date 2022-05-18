@@ -1,7 +1,15 @@
-package raison;
+package raison.domain;
 
+import javax.persistence.*;
+
+@Entity
 public class User {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
+    @Column(nullable=false)
     private String userId;
 
     private String password;
