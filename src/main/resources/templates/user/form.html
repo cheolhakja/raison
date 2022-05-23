@@ -38,7 +38,7 @@
                         <a class="dropdown-item" href="#">Profile</a>
                         <a class="dropdown-item" href="#">개인정보수정</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="/user-list">회원목록</a>
+                        <a class="dropdown-item" href="/users">회원목록</a>
                     </div>
                 </li>
                 <li class="nav-item">
@@ -53,7 +53,7 @@
     </nav>
 
     <div class="container">
-        <form action="/user/create" th:action="@{/user/create}" th:object="${userDataCarrier}" method="post">
+        <form action="/users" th:action="@{/users}" th:object="${userDataCarrier}" method="post">
             <div class="form-group">
                 <label for="userId">사용자 아이디</label>
                 <input type="text" th:field="*{userId}" class="form-control" name="userId" placeholder="사용자 아이디">

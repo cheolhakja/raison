@@ -14,20 +14,20 @@ public class UserController {
 
     private List<User> users = new ArrayList<>();
 
-    @PostMapping("/user/create")
+    @PostMapping("/users")
     public String createUser(@ModelAttribute UserDataCarrier userDataCarrier, Model model) {
         System.out.println("userDataCarrier = " + userDataCarrier);
         users.add(userDataCarrier.toUser());
-        return "redirect:/user/list";
+        return "redirect:/users";
     }
 
-    @GetMapping(path = "/user/list")
+    @GetMapping(path = "/users")
     public String userList(Model model) {
         model.addAttribute("users", users);
         return "user/list";
     }
 
-    @GetMapping(path = "/user/create")
+    @GetMapping(path = "/users/form")
     public String userForm(Model model) {
         model.addAttribute("userDataCarrier", new UserDataCarrier());
         return "user/form";
