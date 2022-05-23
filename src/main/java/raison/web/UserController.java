@@ -12,18 +12,24 @@ import java.util.ArrayList;
 @Controller
 public class UserController {
 
-    List<User> users = new ArrayList<>();
+    private List<User> users = new ArrayList<>();
 
-    @PostMapping("/create")
+    @PostMapping("/user/create")
     public String createUser(@ModelAttribute UserDataCarrier userDataCarrier, Model model) {
         System.out.println("userDataCarrier = " + userDataCarrier);
         users.add(userDataCarrier.toUser());
-        return "redirect:/user-list";
+        return "redirect:/user/list";
     }
 
-    @GetMapping(path = "/user-list")
+    @GetMapping(path = "/user/list")
     public String userList(Model model) {
         model.addAttribute("users", users);
-        return "userList";
+        return "user/list";
+    }
+
+    @GetMapping(path = "/user/create")
+    public String userForm(Model model) {
+        model.addAttribute("userDataCarrier", new UserDataCarrier());
+        return "user/form";
     }
 }
