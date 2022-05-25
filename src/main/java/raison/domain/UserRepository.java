@@ -1,6 +1,5 @@
 package raison.domain;
 
-import org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.*;
@@ -9,10 +8,11 @@ import java.util.List;
 @Repository
 public class UserRepository {
 
-    @PersistenceContext
-    private EntityManager em;
+    @PersistenceUnit
+    private EntityManagerFactory emf;
 
     public void save(User user) {
+        EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         tx.begin();
         em.persist(user);
@@ -21,15 +21,26 @@ public class UserRepository {
     }
 
     public List<User> findAll() {
-        EntityTransaction tx = em.getTransaction();
-        tx.begin();
+        EntityManager em = emf.createEntityManager();
         List<User> users = em.createQuery("select m from User m", User.class).getResultList();
-        //tx.commit();
         em.close();
         return users;
     }
 
-    public void print() {
-        System.out.println("em = " + em);
+    public User findById(Long id) {
+        //handling null
+        EntityManager em = emf.createEntityManager();
+        User user = em.find(User.class, id);
+        return user;
+    }
+
+    public void update(Long id, String userId, String password, String name, String email) {
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        tx.begin();
+        User user = em.find(User.class, id);
+        user.update(userId, password, name, email);
+        tx.commit();
+        em.close();
     }
 }
