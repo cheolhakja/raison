@@ -31,4 +31,10 @@ public class UserRepositoryTest {
         assertThat(userList.size()).isEqualTo(1);
         assertThat(userFindById.getName()).isEqualTo("name");
     }
+
+    @Test
+    public void find_by_userId() {
+        List<User> userList = userRepository.findByUserId("idSecond");
+        assertThat(userList.size()).isEqualTo(1);
+    }
 }
