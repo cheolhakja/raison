@@ -43,4 +43,12 @@ public class UserRepository {
         tx.commit();
         em.close();
     }
+
+    public List<User> findByUserId(String userId) {
+        EntityManager em = emf.createEntityManager();
+        List<User> userList = em.createQuery("select m from User m where m.userId = :userId")
+                .setParameter("userId", userId)
+                .getResultList();
+        return userList;
+    }
 }

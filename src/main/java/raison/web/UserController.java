@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import raison.domain.User;
 import raison.domain.UserRepository;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -54,5 +55,38 @@ public class UserController {
                              @RequestParam(value = "email") String email) {
         userRepository.update(id, userId, password, name, email);
         return "redirect:/users";
+    }
+
+    @GetMapping("/users/loginForm")
+    public String loginForm(Model model) {
+        model.addAttribute("loginDataCarrier", new LoginDataCarrier());
+        return "user/login";
+    }
+
+    @PostMapping("/users/login")
+    public String login(@ModelAttribute LoginDataCarrier loginDataCarrier, HttpSession session) {
+        List<User> userList = userRepository.findByUserId(loginDataCarrier.getUserId());
+
+        if(userList.size()>=2) {
+            throw new IllegalArgumentException("같은 userId로 두명이상의 회원이 등록되어있음");
+            //로그만 찍는 예외처리 안됨. 세밀한 예외처리
+        }
+
+        if(userList.isEmpty()) {
+            throw new IllegalArgumentException("해당 userId로 등록된 회원이 없음");
+        }
+
+        User user = userList.get(0);
+
+        if(!user.getPassword().equals(loginDataCarrier.getPassword())) {
+            throw new IllegalArgumentException("비밀번호 오류");
+        }
+
+        System.out.println("session = " + session);
+        session.setAttribute("user", user);
+
+
+
+        return "redirect:/";
     }
 }
